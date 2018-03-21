@@ -1,0 +1,14 @@
+{
+
+    //"displaymonth": ["2018-03"],
+
+    "holidays":
+    {
+        "date": "2018-03-21", "event":"春分の日"
+    },
+    "events":
+    [
+        { "date": "2018-03-20", "event":"上馬 第三火曜日定休", "url":"https://google.com/", "tag":"strong" },
+        { "date": "2018-03-21", "event":"幡ヶ谷・上馬 営業", "url":"" }
+    ]
+}

@@ -1,16 +1,22 @@
 <template>
     <section class="section-calendar" id="event-calendar">
 
-
         <div class="section-header">
             <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        
+                <div class="row align-items-end">
+                    <div class="col-6">
                         <h3>event calendar</h3>
-                        <h1>{{calMeta.monthName}}, {{calMeta.year}}</h1>
-
-                    </div><!-- /.col-12 -->
+                        <h1>{{displayedMonth}}</h1>
+                    </div><!-- /.col-6 -->
+                    <div class="col-6">
+                        <div class="selectMonth">
+                            <div class="btn-group" role="group" aria-label="Select Month">
+                                <button type="button" v-on:click="prevMonth" class="btn btn-lg btn-light">前の月</button>
+                                <button type="button" v-on:click="thisMonth" class="btn btn-lg btn-light">今月</button>
+                                <button type="button" v-on:click="nextMonth" class="btn btn-lg btn-light">次の月</button>
+                            </div><!--.btn-group-->
+                        </div><!-- /.selectMonth -->
+                    </div><!-- /.col-6 -->
                 </div><!-- /.row -->
             </div><!-- /.container -->
         </div><!-- /.section-header -->
@@ -22,52 +28,36 @@
                 <div class="row">
                     <div class="col-12">
                         
-                        <div class="sp-slides">
 
+                        <table>
+                            <thead>
+                                <tr class="day-label">
+                                    <th v-for="week in weekName" v-bind:key="week.name" v-bind:class="week.name">
+                                        <div class="cell">{{week.name}}</div>
+                                    </th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(week, k) in weeks" :key="k">
+                                    <td v-for="(day, k2) in week" :key="k2" :class="[ day.day, day.isDate ? day.dateclass:'none' ] ">
+                                        <div class="cell">
+                                            <h3>{{day.date}}</h3>
+                                            <div class="event">
 
-                            <div class="sp-slide">
-                                
-                                <!-- <h2 class="cal-month">Event Calendar</h2> -->
+                                                
 
-                                <table>
+                                            </div><!-- /.event -->
+                                        </div>
+                                    </td> 
+                                </tr>
+                            </tbody>
+                        </table>
 
-                                    <tr class="day-label">
-                                        <th v-for="week in weekName" v-bind:key="week.name" v-bind:class="week.name">
-                                            <div class="cell">{{week.name}}</div>
-                                        </th> 
-                                    </tr>
+                    </div><!-- /.col-12 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
 
-
-                                    <tr v-for="week in weeks" :key="week">
-                                        <td v-for="day in week" :key="day" :class="[ day.day, 'date-'+calMeta.year+'-'+(calMeta.month+1)+'-'+day.date, { none:!day.isDate }] ">
-                                            <div class="cell">
-                                                <h3>{{day.date}}</h3>
-                                            </div>
-                                        </td> 
-                                    </tr>
-
-                                    <!-- <dummycalendar/> -->
-                                    
-
-                                </table>
-
-                                {{showCalendar}}
-
-                            </div><!--.sp-slide-->
-                        
-                        </div><!--.sp-slides-->
-
-
-                    </div>
-                    <!-- /.col-12 -->
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container -->
-
-        </div>
-        <!-- /.section-body -->
-            
+        </div><!-- /.section-body -->        
 
     </section><!-- /.section-calendar -->
 </template>
@@ -76,32 +66,76 @@
 
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-import Dummycalendar from '~/components/dummycalendar.vue'
+import Axios from 'axios'
+import VueAxios from 'vue-axios'
 
 export default {
     
-    components: { FontAwesomeIcon, Dummycalendar },
+    components: { FontAwesomeIcon, Axios, VueAxios },
 
     data: function() { 
         return { 
-            hoge2: '',
+            debug: 123,
+            monthList: [],
             monthName: ['january','february','march','april','may','june','july','augsut','september','october','november','December'],
             weekName: [{name:'sun'},{name:'mon'},{name:'tue'},{name:'wed'},{name:'thu'},{name:'fri'},{name:'sat'}],
-            calMeta: { year:0, month:0, monthName:'' }
+            calMeta: { year:0, month:0, date:0, monthName:'' }
         }
     },
     created: function(){
+        // 今年今月今日の日付
+        this.thisMonth();
+        
+        // const dateObj = new Date()
+        // this.calMeta.year = dateObj.getFullYear()
+        // this.calMeta.month = dateObj.getMonth()
+        // this.calMeta.date = dateObj.getDate()
+        
 
-        const dateObj = new Date()
-        this.calMeta.year = dateObj.getFullYear()
-        this.calMeta.month = dateObj.getMonth()
-        this.calMeta.date = dateObj.getDate()
-        this.calMeta.monthName = this.monthName[this.calMeta.month]
+        Axios.get('calendars.json').then(function(response) { //this.endpoint()
+            
+           //(response.data.displaymonthes.length)
+
+            
+            if(response.data.length<=0)
+            {
+                //setLoadStatus('not found.')
+            }
+            else
+            {
+                /*
+                for(var i = 0; i < response.data.length; i++)
+                {
+                    //出現アニメーションディレイカウント
+                    response.data[i].delayTime = 'animation-delay: ' + (0.1 * i) + 's'; //Math.floor(3 * i)/10
+                    bikes.push(response.data[i])//参照渡しのためここで入れている
+                    
+                }
+                //load complete
+                
+                Vue.set(vm,'isShow',true);
+
+                setLoadStatus('done')
+                */   
+            }
+            
+        }).catch(function(error) {
+            
+            //setLoadStatus('error.')
+            console.log('failure:' + error +' / '+ new Date())
+
+        }).then()
+        {
+            //console.log('end...')
+        }
     },
     computed: {
-        
+
+        displayedMonth: function(){
+           return this.monthName[this.calMeta.month] + ", " + this.calMeta.year
+        },
         weeks: function(){
-            
+        
             // 1日の曜日
             const firstDay = new Date(this.calMeta.year, this.calMeta.month, 1).getDay();
             
@@ -109,33 +143,33 @@ export default {
             const lastDate = new Date(this.calMeta.year, this.calMeta.month+1, 0 ).getDate();
 
             let dayIndex = 1
+            
 
-            let weeks = []
-
-            //console.log([ this.calMeta.month, firstDay, lastDate, this.calMeta.date])
+            let weeks = [] //全週が入る（最大６週
 
             for (var w = 0; w < 6; w++) {
+                
                 var week = [];
 
-                // 空白行をなくすため
+                // 空白行をなくすため = 6週目のない月（または４週目までしかない2月）
                 if (lastDate < dayIndex) { break; }
 
                 for (var d = 0; d < 7; d++) {
                     if (w == 0 && d < firstDay) { //最初の週（行）
+                    
                         week[d] = { date: '', day: this.getDayName(d), isDate:false };
-
-                    } else if (w == 6 && lastDate < dayIndex) { //最後の週（行）
-                        week[d] = { date: '', day: this.getDayName(d), isDate:false };
-                        dayIndex++;
 
                     } else if (lastDate < dayIndex) {
+                        // 末日以降
                         week[d] = { date: '', day: this.getDayName(d), isDate:false };
-                        dayIndex++;
+                        dayIndex++
 
                     } else {
-                        week[d] = { date: dayIndex, day: this.getDayName(d), isDate:true };
-                        dayIndex++;
+                        //日付がある
+                        week[d] = { date: dayIndex, day: this.getDayName(d), dateclass: 'date-'+this.calMeta.year+'-'+(this.calMeta.month+1)+'-'+dayIndex, isDate:true };
+                        dayIndex++
                     }
+                
                 }
 
                 weeks.push(week);
@@ -145,10 +179,44 @@ export default {
         }
     },
     methods: {
+        loadMonthlyEventData: function(yyyymm){
+            
+            //axios.get(this.endpoint(searchkey)).then(function(response) { //this.endpoint()
+
+            return this.monthName[yyymm]
+
+        },
         getDayName: function(index){
             
             return this.weekName[index].name
 
+        },
+
+        thisMonth: function() {
+
+            const dateObj = new Date()
+            this.calMeta.year = dateObj.getFullYear()
+            this.calMeta.month = dateObj.getMonth()
+            this.calMeta.date = dateObj.getDate()
+            
+        },
+        prevMonth: function() {
+            if (this.calMeta.month == 0) {
+                this.calMeta.year--;
+                this.calMeta.month = 11;
+            }
+            else {
+                this.calMeta.month--;
+            }
+        },
+        nextMonth: function() {
+            if (this.calMeta.month == 11) {
+                this.calMeta.year++
+                this.calMeta.month = 0;
+            }
+            else {
+                this.calMeta.month++
+            }
         }
     }
 
@@ -166,6 +234,7 @@ export default {
 .section-calendar .section-header h3 { color: #b8dbf5; text-align: left; text-transform: uppercase; } 
 .section-calendar .section-header h1 { color: #FFFFFF; text-align: left; text-transform: uppercase; } 
 
+.section-calendar .section-header .selectMonth { text-align: right; }
 
 .section-calendar .section-body { padding: 32px 0;  } 
 .section-calendar h2.cal-month { font-size: 2.4em; font-family:'Helvetica W01 Bold'; padding: 0 0 8px; text-transform: capitalize;  }
@@ -189,7 +258,6 @@ export default {
 .section-calendar table td .event { position: absolute; bottom: 8px; font-size: 1.4rem; line-height: 1.4rem; font-weight: 800; }
 .section-calendar table td .event a { color: #a04040; }
 .section-calendar table td a { text-decoration: underline ; }
-//.section-calendar table td i.fa-star { color: #fec611; }
 .section-calendar table td strong { color: #D00; }
 
 /*

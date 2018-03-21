@@ -1,30 +1,12 @@
 <template>
     <main>
-        
-        <div class="spacer"></div>
 
+        <div class="spacer"></div>
+        
         <calendar/>
 
         <div class="spacer"></div>
-
-        <section class="container d-none">
-            <div class="row">
-                <div class="col">
-                    <h1 class="title">
-                        LET's BEGIN.
-                    </h1>
-                    <h2 class="subtitle">
-                        Nuxt.js project
-                    </h2>
-                    <div class="links">
-                        <router-link to="/user/" class="btn btn-primary"><i class="fas fa-user"></i> MY PAGE</router-link>
-                    </div><!--.links-->
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-
-        </section>
         
-
     </main>
 </template>
 

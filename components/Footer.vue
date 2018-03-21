@@ -6,15 +6,12 @@
                 <div class="row">
                     <div class="col">
                         
-                        <span class="copyright">
-                            <!-- <i class="far fa-copyright"></i>  -->
-                            <font-awesome-icon icon="copyright" regular /> blue lug
-                        </span> <!-- /.copyright -->
+                        <p class="copyrights">
+                            blue lug
+                        </p><!-- /.copyrights -->
 
-                    </div>
-                    <!-- /.col -->
-                </div>
-                <!-- /.row -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
             </div><!-- /.container -->
         </div><!-- /.footer-container -->
     </footer>
@@ -22,10 +19,10 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+//import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 export default {
-    
-    components: { FontAwesomeIcon }
+
+    components: {  }
 
 }
 </script>
@@ -40,7 +37,7 @@ export default {
         background-color: #11abdf; text-align: center; padding: 32px 0; 
     }
 
-    .copyright { text-transform: capitalize; font-family: 'Helvetica LT W01 Bold Cond'; color: #89e8f6; }
+    .copyrights { font-size: 1.4em; margin: 0; text-transform: capitalize; font-family: 'Helvetica LT W01 Bold Cond'; color: #89e8f6; }
 
 }
 

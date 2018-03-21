@@ -15,8 +15,7 @@
 
         </div><!-- /.header-container -->
     </header>
-
-
+    
 </template>
 
 
