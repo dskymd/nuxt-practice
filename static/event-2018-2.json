@@ -1,0 +1,29 @@
+{
+    "events":
+    [
+        {}
+        ,{ "date":"2018-2-3", "name":"pilgrim POP-UP", "url":"http://pilgrimsurfsupply.jp/news/2018/01/12193000.php"}
+        ,{ "date":"2018-2-4", "name":"pilgrim POP-UP", "url":"http://pilgrimsurfsupply.jp/news/2018/01/12193000.php"}
+
+        ,{ "date": "2018-2-10", "name":"NITTOの日"}
+        ,{ "date": "2018-2-12", "name":"NITTOxMKS@上馬", "url":"https://bluelug.com/blog/kamiuma/93922/", "type":"holiday" }
+
+        ,{ "date": "2018-2-5", "name":"LUG 定休"}
+        ,{ "date": "2018-2-12", "name":"LUG 営業", "tag":"strong" }
+        ,{ "date": "2018-2-19", "name":"LUG 定休"}
+        ,{ "date": "2018-2-26", "name":"LUG 定休"}
+
+        ,{ "date": "2018-2-7", "name":"幡ヶ谷・上馬 定休" }
+        ,{ "date": "2018-2-14", "name":"幡ヶ谷・上馬 定休" }
+        ,{ "date": "2018-2-21", "name":"幡ヶ谷・上馬 定休"}
+        ,{ "date": "2018-2-28", "name":"幡ヶ谷・上馬 定休" }
+
+        ,{ "date": "2018-2-1", "name":"代々木公園店 定休"}
+        ,{ "date": "2018-2-8", "name":"代々木公園店 定休"}
+        ,{ "date": "2018-2-15", "name":"代々木公園店 定休"}
+        ,{ "date": "2018-2-22", "name":"代々木公園店 定休"}
+
+        ,{ "date": "2018-2-11", "name":"建国記念の日", "type":"holiday"}
+
+    ]
+}   

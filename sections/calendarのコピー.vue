@@ -6,7 +6,7 @@
                 <div class="row align-items-center">
                     <div class="col-6">
                         <h3>event calendar</h3>
-                        <h1>{{displayedMonth}}, {{displayedYear}}</h1>
+                        <h1>{{displayedMonth}}</h1>
                     </div><!-- /.col-6 -->
                     <div class="col-6">
                         <div class="selectMonth">
@@ -27,6 +27,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
+                        
 
                         <table>
                             <thead>
@@ -69,6 +70,7 @@
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
+//import eventdata from '~/static/event-2018-3.json'
 
 export default {
     
@@ -76,13 +78,15 @@ export default {
 
     data: function() { 
         return { 
-            monthName: ['january','february','march','april','may','june','july','augsut','september','october','november','december'],
-            weekName: [{name:'sun'},{name:'mon'},{name:'tue'},{name:'wed'},{name:'thu'},{name:'fri'},{name:'sat'}],
             eventList: {},
+            monthName: ['january','february','march','april','may','june','july','augsut','september','october','november','December'],
+            weekName: [{name:'sun'},{name:'mon'},{name:'tue'},{name:'wed'},{name:'thu'},{name:'fri'},{name:'sat'}],
             calMeta: { year:0, month:0, date:0, monthName:'' }
         }
     },
     created: function(){
+
+        let sss = this.eventList
 
         // 今年 今月 今日の日付
         this.thisMonth();
@@ -91,14 +95,8 @@ export default {
     },
     computed: {
 
-        //
-        displayedYear: function(){
-           return this.calMeta.year
-        },
-
-
         displayedMonth: function(){
-           return this.monthName[this.calMeta.month]
+           return this.monthName[this.calMeta.month] + ", " + this.calMeta.year
         },
 
         weeks: function(){
@@ -110,6 +108,8 @@ export default {
             const lastDate = new Date(this.calMeta.year, this.calMeta.month+1, 0 ).getDate();
 
             let dayCount = 1
+            
+            //let monthes = {}
             let weeks = [] //週ごとの配列が入る（最大６週
             let tmpdatecode = ''
             let tmpEvents = []
@@ -132,6 +132,7 @@ export default {
                         week[d] = { date: '', day: this.getDayName(d), isDate:false };
 
                     } else if (lastDate < dayCount) { // 末日以降
+
                         
                         week[d] = { date: '', day: this.getDayName(d), isDate:false };
                         dayCount++
@@ -143,13 +144,13 @@ export default {
                         //イベントの追加
                         tmpEvents = []
                         tmpdatecode = this.calMeta.year +'-'+ (this.calMeta.month+1) +'-'+ dayCount
-                        
-                        //check is holiday 
+
                         tmpIsHoliday = false;
 
                         for(var i=0; i<eventList.length; i++) { 
+                            //result = Object.keys(eventList[i]).filter(function(k) { return eventList[i][k] == tmpdatecode })[0];
                             
-                            //この日 が イベントの日 か照合
+                            //この日 が イベントの日
                             if( tmpdatecode == eventList[i].date) 
                             {
                                 tmpEvents.push(eventList[i]) //イベント行追加
@@ -180,6 +181,10 @@ export default {
             return 'event-' +this.calMeta.year+'-'+(this.calMeta.month+1)+ '.json'
         },
         setEventList: function(data){
+             
+             for (var o = 0; o < data.length; o++) {               
+                //this.eventList
+             }
             this.eventList = data
         },
         loadMonthlyEventData: function(){
@@ -188,7 +193,8 @@ export default {
             let clearEvent = this.clearEvent
             
             Axios.get(this.endpoint()).then(function(response) { //this.endpoint()
-
+            //Axios.get( eventdata ).then(function(response) { //this.endpoint()
+                
                 if(response.data.length<=0)
                 {
                     //loaded, but no data
@@ -196,13 +202,22 @@ export default {
                 }
                 else
                 {
+                    /*
+                    for(var i = 0; i < response.data.length; i++)
+                    {
+                        //出現アニメーションディレイカウント
+                        response.data[i].delayTime = 'animation-delay: ' + (0.1 * i) + 's'; //Math.floor(3 * i)/10
+                        bikes.push(response.data[i])//参照渡しのためここで入れている
+                    }
+                    */
+
                     setEventList(response.data.events)
                 }
                 
             }).catch(function(error) {
                 
                 //load failed - no file
-                console.log('[Failure] : ' + error +' / '+ new Date())
+                console.log('Failure!!! : ' + error +' / '+ new Date())
                 
                 //eventList Clear...
                 clearEvent()
@@ -213,7 +228,9 @@ export default {
             }
 
         },
-        
+        clearEvent: function() {
+            this.eventList = {}
+        },
         getDayName: function(index){
             return this.weekName[index].name
         },
@@ -246,13 +263,10 @@ export default {
             }
             this.changeMonth()
         },
-        changeMonth: function()
-        {
+        changeMonth: function() {
+
             this.loadMonthlyEventData()
-        },
-        clearEvent: function() {
-            this.eventList = {}
-        },
+        }
     }
 }
 </script>
@@ -308,6 +322,7 @@ font-family:'Helvetica W01 Light Cn';
 font-family:'Helvetica W01 Cm';
 font-family:'Helvetica LT W01 Bold Cond';
 */
+
 
 </style>
 

@@ -1,6 +1,14 @@
 <template>
-    <div>
-        404 Not Found.
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="code">
+                    <h1 class="notfound">404 Not Found.</h1>
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div>
 </template>
 
@@ -19,7 +27,9 @@ export default {
 <style lang="scss">
 @import '~assets/vars.scss';
 
-.footer {
-    .footer-container { background-color: #999; }
+.code { text-align: center; padding: 48px 0;
+
+    h1 { font-family:'Helvetica LT W01 Bold Cond'; font-size: 3.6em; border-bottom: 2px solid #333; display: inline; }
+
 }
 </style>
